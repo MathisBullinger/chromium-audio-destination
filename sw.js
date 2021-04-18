@@ -4,13 +4,13 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   // ignore request urls other than .mp3/.m4a
-  if (!/\.m4a|mp3(?=[?#]|$)/.test(e.request.url)) return
+  if (!/\.(m4a|mp3)(?=[?#]|$)/.test(e.request.url)) return
 
   const dest = e.request.destination
 
   e.waitUntil(
     log(
-      `<code>request.duration</code> is <code>"${dest}"</code> (${
+      `<code>request.destination</code> is <code>"${dest}"</code> (${
         e.request.url.split(/[?#]/)[0]
       })`,
       dest !== 'audio'
