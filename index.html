@@ -60,12 +60,14 @@
     <audio controls></audio>
     <ol></ol>
     <script>
-      function log(content, type = 'info') {
-        const item = document.createElement('li')
-        item.innerHTML = content
-        item.dataset.type = type
-        document.querySelector('ol').appendChild(item)
-      }
+      const audio = document.querySelector('audio')
+
+      const preload = new URLSearchParams(location.search).get('preload')
+      if (preload) audio.setAttribute('preload', preload)
+
+      audio.addEventListener('seeked', () => {
+        log(`seeked ${audio.currentTime}`)
+      })
 
       navigator.serviceWorker.addEventListener('message', (e) => {
         log('[sw]: ' + e.data.msg, e.data.type)
@@ -77,10 +79,12 @@
           'https://hwcdn.libsyn.com/p/7/7/2/772bd6e7b011eb94/http203-does-fish-and-scripts.m4a?c_id=69473891&cs_id=69473891&destination_id=1969313&expiration=1618735426&hwt=2592b1433f03caf1ee137e4325da81b2'
       })
 
-      const audio = document.querySelector('audio')
-      audio.addEventListener('seeked', () => {
-        log(`seeked ${audio.currentTime}`)
-      })
+      function log(content, type = 'info') {
+        const item = document.createElement('li')
+        item.innerHTML = content
+        item.dataset.type = type
+        document.querySelector('ol').appendChild(item)
+      }
     </script>
   </body>
 </html>
