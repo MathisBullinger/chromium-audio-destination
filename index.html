@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SW Fetch Destination</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #000d;
+        font-size: 14px;
+        margin: auto;
+        width: 50rem;
+        max-width: 95vw;
+      }
+
+      code {
+        background-color: #fffc;
+        padding: 0 0.2rem;
+        margin: 0 0.2rem;
+      }
+
+      audio {
+        margin: 3rem 0;
+        width: 100%;
+      }
+
+      audio:not([src]) {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+
+      ol {
+        width: 100%;
+        padding: 0;
+      }
+
+      li {
+        list-style: none;
+        background-color: #0000000f;
+        padding: 0.5rem 1rem;
+        overflow-x: hidden;
+      }
+
+      li:nth-child(2n) {
+        background-color: #00000008;
+      }
+
+      li[data-type='error'] {
+        background-color: #f005;
+      }
+
+      li:nth-child(2n)[data-type='error'] {
+        background-color: #f003;
+      }
+    </style>
+  </head>
+  <body>
+    <audio controls></audio>
+    <ol></ol>
+    <script>
+      function log(content, type = 'info') {
+        const item = document.createElement('li')
+        item.innerHTML = content
+        item.dataset.type = type
+        document.querySelector('ol').appendChild(item)
+      }
+
+      navigator.serviceWorker.addEventListener('message', (e) => {
+        log('[sw]: ' + e.data.msg, e.data.type)
+      })
+
+      navigator.serviceWorker.register('./sw.js').then((sw) => {
+        log('service worker registered')
+        audio.src =
+          'https://hwcdn.libsyn.com/p/7/7/2/772bd6e7b011eb94/http203-does-fish-and-scripts.m4a?c_id=69473891&cs_id=69473891&destination_id=1969313&expiration=1618735426&hwt=2592b1433f03caf1ee137e4325da81b2'
+      })
+
+      const audio = document.querySelector('audio')
+      audio.addEventListener('seeked', () => {
+        log(`seeked ${audio.currentTime}`)
+      })
+    </script>
+  </body>
+</html>
