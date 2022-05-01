@@ -93,8 +93,7 @@
 
       navigator.serviceWorker.register('./sw.js').then((sw) => {
         log('service worker registered')
-        audio.src =
-          'https://hwcdn.libsyn.com/p/7/7/2/772bd6e7b011eb94/http203-does-fish-and-scripts.m4a?c_id=69473891&cs_id=69473891&destination_id=1969313&expiration=1618735426&hwt=2592b1433f03caf1ee137e4325da81b2'
+        audio.src = 'https://traffic.libsyn.com/secure/http203/http203-does-fish-and-scripts.m4a'
       })
 
       function log(content, type = 'info') {
